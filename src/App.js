@@ -1,13 +1,12 @@
 import './App.css';
 import Header from './components/Header'
-import data from './data';
-import Body from './components/body/Body';
+import UserCard from './components/UserCard';
 
 function App() {
   return (
     <div>
       <Header />
-      <Body data={data}/>
+      <UserCard />
     </div>
   );
 }
