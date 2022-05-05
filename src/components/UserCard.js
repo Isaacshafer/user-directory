@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import data from '../data'
 import NewUserForm from './NewUserForm'
+import { useFormik } from 'formik'
+import EditUser from './EditUser'
 
 
 export default function UserCard(props) {
@@ -8,6 +10,7 @@ export default function UserCard(props) {
 const [newUser, setNewUser] = useState(false)
 const [userData, setUserdata] = useState(data)
 const [cardId, setCardId] = useState(0)
+const [editUser, setEditUser] = useState(false)
 
 
   let displayMovies = 
@@ -23,11 +26,12 @@ const [cardId, setCardId] = useState(0)
       {setCardId(cardId+1)}
     }
     let deleteCard = () => {
-      setUserdata(userData.splice(cardId, 1))
+      userData.splice(cardId, 1)
+      setUserdata(userData)
       setCardId(cardId-1)
     }
     let createNewUser = () => {
-      setNewUser(true)
+      setNewUser(!newUser)
     }
     let submitNewUser = (values) => {
       userData.push(values)
@@ -50,12 +54,13 @@ const [cardId, setCardId] = useState(0)
       </div>
       <div>
         <button onClick={previousCard}>Previous</button>
-        <button>Edit</button>
+        <button onClick={() => setEditUser(true)}>Edit</button>
         <button onClick={deleteCard}>Delete</button>
         <button onClick={createNewUser}>New</button>
         <button onClick={nextCard}>Next</button>
       </div>
       {newUser ? <NewUserForm submitNewUser={submitNewUser} setUserdata={setUserdata} userData={userData}/> : null}
+      {editUser ? <EditUser setEditUser={setEditUser} editUser={editUser} cardId={cardId} setUserdata={setUserdata} userData={userData}/>  : null}
     </div>
 
   )

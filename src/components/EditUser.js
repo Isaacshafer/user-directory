@@ -1,20 +1,30 @@
 import React from 'react'
 import { useFormik } from 'formik'
 
-export default function NewUserForm({userData, submitNewUser}) {
+
+export default function EditUser({userData, setUserdata, cardId, setEditUser, editUser}) {
+   
     const formik = useFormik({
         initialValues: {
-            id: (userData[userData.length-1].id) + 1,
+            id: userData[cardId].id,
             name: '',
-            city: '',
-            country: '',
-            employer: '',
-            title: '',
-            favoriteMovies: []
+            firstname: userData[cardId].name.first, 
+            lastname: userData[cardId].name.last,
+            city: userData[cardId].city,
+            country: userData[cardId].country,
+            employer: userData[cardId].employer,
+            title: userData[cardId].title,
+            favoriteMovies: userData[cardId].favoriteMovies
         }, onSubmit: values => {
             values.name = {first: values.firstname, last: values.lastname}
-            // values.id = (userData[userData.length-1].id) + 1
-            submitNewUser(values)
+            setUserdata(userData.map((element, index)=> {
+                if (element.id === values.id){
+                    return values
+                } else {
+                    return element
+                }
+            }))
+            setEditUser(!editUser)
             alert(JSON.stringify(values, null, 2))
         }
     })
